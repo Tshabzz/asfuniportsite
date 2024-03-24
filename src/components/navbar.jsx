@@ -17,6 +17,18 @@ import { DownOutlined } from "@ant-design/icons"
 
 
 const Navbar = ({}) => {
+    const [colorChange, setColorchange] = useState(false);
+    const changeNavbarColor = () => {
+        console.log('Scrolling')
+        if (window.scrollY >= 80) {
+            setColorchange(true);
+        } else {
+            setColorchange(false);
+        }
+        console.log(colorChange)
+    };
+    window.addEventListener("scroll", changeNavbarColor);
+
     const items = [
         {
           key: '1',
@@ -81,7 +93,7 @@ const Navbar = ({}) => {
             <></>
         ) : (
             <>
-            <div className={`${pathName == '/' ? 'bg-dark-green h-24 pt-5 ' : 'bg-transparent h-20 pt-3'} fixed w-full z-40 md:hidden sm:hidden`}>
+            <div className={`${pathName == '/' ? 'bg-dark-green h-24 pt-5 ' : 'bg-transparent h-20 pt-3'} ${colorChange ? 'bg-dark-green' : 'bg-transparent'} fixed w-full z-40 md:hidden sm:hidden`}>
                 {pathName === '/' && (
                     <h2 className="flex justify-center text-white font-semibold text-sm lg:text-xs">ADVENTIST STUDENTS <br className="hidden md:block" /> FELLOWSHIP (ASF) UNIPORT</h2>
                 )}
@@ -103,7 +115,7 @@ const Navbar = ({}) => {
                         <Link key={index} className={`-mt-5 text-sm lg:text-xs barlink font-medium text-white hover:opacity-75 active:opacity-75 space-y-1 ${pathName == `/${path.link}` && 'border-b-2'}`} href={`/${path.link}`}>{path.name}</Link>
                     ))}
                     {session.status == 'loading' && (
-                        <button disabled="disabled" className="opacity-50 cursor-not-allowed h-10 w-20 bg-[#3FD0C9] text-black rounded-md font-medium test-sm shadow-sm shadow-[#3FD0C9] -mt-10">SignIn</button>
+                        <button disabled="disabled" className="opacity-50 cursor-not-allowed h-[40px] w-20 bg-[#3FD0C9] text-black text-sm font-semibold rounded-md font-medium test-sm -mt-8">SignIn</button>
                     )}
                     {session.status == 'authenticated' && (
                         <div className="flex space-x-2 flex-row mb-3 items-center cursor-pointer ">
@@ -133,7 +145,7 @@ const Navbar = ({}) => {
                         </div>
                     )}
                     {session.status == 'unauthenticated' && (
-                        <button type="button" onClick={() => router.push('/login')} className=" h-10 w-20 bg-[#3FD0C9] text-black rounded-md font-medium hover:opacity-75 hover:shadow-lg test-sm  shadow-sm shadow-[#3FD0C9] -mt-10">SignIn</button>
+                        <button type="button" onClick={() => router.push('/login')} className=" h-[40px] w-20 bg-[#3FD0C9] text-black text-sm font-semibold rounded-md font-medium hover:opacity-75 hover:shadow-lg test-sm  shadow-sm -mt-8">Sign In</button>
                     )}
                 </div>
             </div>

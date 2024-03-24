@@ -5,10 +5,15 @@ import newsheroimg from '../../../public/newshero.png'
 import { ArrowDropDown, SearchOutlined } from '@mui/icons-material'
 import { useState } from 'react'
 import { DatePicker, Dropdown, Space } from 'antd'
+import { Card, CardHeader, CardBody, CardFooter, Stack, Text, Image, Heading, Button } from '@chakra-ui/react'
 import { DownOutlined } from '@ant-design/icons'
+import { useSelector, useDispatch } from 'react-redux'
+import { addNews } from '@/feautures/news/newsSlice'
 import dayjs from 'dayjs'
 
 const NewsPage = ({}) => {
+  const latestnews = useSelector((state) => state.news)
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(false);
   const handleMenuClick = (e) => {
     if (e.key === '3') {
@@ -20,7 +25,6 @@ const NewsPage = ({}) => {
       setOpen(nextOpen);
     }
   };
-
   const dateFormat = 'YYYY/MM/DD';
   const items = [
     {
@@ -60,7 +64,7 @@ const NewsPage = ({}) => {
             <div style={{
                 position: 'absolute',
                 backgroundColor: '#093E32e4',
-                width: '100%', height:'384px',
+                width: '100%', height:'60vh',
                 zIndex: 3
               }}
             />
@@ -95,6 +99,47 @@ const NewsPage = ({}) => {
                   </div>
                 </div>
             </div>
+        </section>
+        <section className='h-full flex flex-col'>
+          <div className='w-4/5 px-20 mt-5 space-y-6 flex flex-wrap'>
+            {latestnews.map((news, index) => (
+              <div className='w-full'>
+              <Card
+                direction={{ base: 'column', sm: 'row' }}
+                overflow='hidden'
+                variant='elevated'
+                key={index}
+              >
+                <Image
+                  objectFit='cover'
+                  // maxW={{ base: '100%', sm: '200px' }}
+                  className='w-1/3'
+                  src={news.image}
+                  alt={news.description}
+                />
+              
+                <Stack>
+                  <CardBody>
+                    <Heading size='md'>{news.title}</Heading>
+              
+                    <Text py='2'>
+                      {news.description}
+                    </Text>
+                  </CardBody>
+              
+                  <CardFooter>
+                    <Button variant='solid' colorScheme='blue' className='bg-dark-green hover:bg-dark-green hover:opacity-75'>
+                      Read more...
+                    </Button>
+                  </CardFooter>
+                </Stack>
+              </Card>
+              </div>
+              ))}
+          </div>
+          <div className='w-1/5'>
+
+          </div>
         </section>
     </div>
   )
